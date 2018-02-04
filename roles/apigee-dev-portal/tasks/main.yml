@@ -1,0 +1,10 @@
+---
+- import_tasks: facts.yml
+  tags:
+    - facts
+    - scan
+    - response
+    - setup
+
+- import_tasks: run.yml
+  when: apigee

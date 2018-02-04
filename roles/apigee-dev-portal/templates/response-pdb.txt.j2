@@ -1,0 +1,12 @@
+HOSTIP="{{ ansible_default_ipv4.address }}"
+
+REGION="{{ apigee.region }}"
+
+PG_PWD="{{ apigee_dp_postgresql_password }}"
+{% if ansible_default_ipv4.address == apigee.dp.pg_master and apigee.dp.pg_standby %}
+PG_MASTER="{{ apigee.dp.pg_master }}"
+PG_STANDBY="{{ apigee.dp.pg_standby[0] }}"
+{% elif ansible_default_ipv4.address in apigee.dp.pg_standby %}
+PG_MASTER="{{ apigee.dp.pg_master }}"
+PG_STANDBY="{{ ansible_default_ipv4.address }}"
+{% endif %}

@@ -1,0 +1,9 @@
+---
+- hosts: apigee-mirror
+  roles:
+    - apigee-base
+    - apigee-mirror
+  vars:
+    apigee_repository_username: SET_ME
+    apigee_repository_password: SET_ME
+    apigee_installation_path: /opt

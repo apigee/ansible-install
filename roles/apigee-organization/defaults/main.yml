@@ -1,0 +1,24 @@
+---
+apigee_tmp_dir: /tmp/apigee
+apigee_clean_up: true
+# Show Apigee facts.
+apigee_debug: false
+
+apigee_cluster_hostname: '{{ inventory_hostname }}'
+
+apigee_admin_email: opdk@apigee.com
+apigee_admin_password: Apigee11
+
+apigee_organization_name: apigee
+apigee_environment_name: dev
+apigee_virtual_host_name: default
+apigee_virtual_host_port: 9001
+apigee_virtual_host_aliases:
+  - SET_ME_1
+  - SET_ME_2
+  - SET_ME_3
+apigee_organization_admin_email: '{{ apigee_admin_email }}'
+apigee_organization_admin_password: '{{ apigee_admin_password }}'
+
+# Leave blank to retain analytics indefinitely.
+apigee_analytics_retention_days: 90

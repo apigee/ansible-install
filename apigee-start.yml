@@ -1,0 +1,81 @@
+---
+- hosts: apigee
+  gather_facts: no
+  tasks:
+    - name: Start Cassandra
+      command: removes=/opt/apigee/apigee-cassandra /opt/apigee/apigee-service/bin/apigee-service apigee-cassandra start
+
+    - name: Wait for Cassandra
+      command: removes=/opt/apigee/apigee-cassandra /opt/apigee/apigee-service/bin/apigee-service apigee-cassandra wait_for_ready
+
+    - name: Start OpenLDAP
+      command: removes=/opt/apigee/apigee-openldap /opt/apigee/apigee-service/bin/apigee-service apigee-openldap start
+
+    - name: Wait for OpenLDAP
+      command: removes=/opt/apigee/apigee-openldap /opt/apigee/apigee-service/bin/apigee-service apigee-openldap wait_for_ready
+
+    - name: Start PostgreSQL
+      command: removes=/opt/apigee/apigee-postgresql /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql start
+
+    - name: Wait for PostgreSQL
+      command: removes=/opt/apigee/apigee-postgresql /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql wait_for_ready
+
+    - name: Start Qpid
+      command: removes=/opt/apigee/apigee-qpidd /opt/apigee/apigee-service/bin/apigee-service apigee-qpidd start
+
+    - name: Wait for Qpid
+      command: removes=/opt/apigee/apigee-qpidd /opt/apigee/apigee-service/bin/apigee-service apigee-qpidd wait_for_ready
+
+    - name: Start Zookeeper
+      command: removes=/opt/apigee/apigee-zookeeper /opt/apigee/apigee-service/bin/apigee-service apigee-zookeeper start
+
+    - name: Wait for Zookeeper
+      command: removes=/opt/apigee/apigee-zookeeper /opt/apigee/apigee-service/bin/apigee-service apigee-zookeeper wait_for_ready
+
+    - name: Start Management Server
+      command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server start
+
+    - name: Wait for Management Server
+      command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server wait_for_ready
+
+    - name: Start Message Processor
+      command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor start
+
+    - name: Wait for Message Processor
+      command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor wait_for_ready
+
+    - name: Start Postgres Server
+      command: removes=/opt/apigee/edge-postgres-server /opt/apigee/apigee-service/bin/apigee-service edge-postgres-server start
+
+    - name: Wait for Postgres Server
+      command: removes=/opt/apigee/edge-postgres-server /opt/apigee/apigee-service/bin/apigee-service edge-postgres-server wait_for_ready
+
+    - name: Start Qpid Server
+      command: removes=/opt/apigee/edge-qpid-server /opt/apigee/apigee-service/bin/apigee-service edge-qpid-server start
+
+    - name: Wait for Qpid Server
+      command: removes=/opt/apigee/edge-qpid-server /opt/apigee/apigee-service/bin/apigee-service edge-qpid-server wait_for_ready
+
+    - name: Start Router
+      command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router start
+
+    - name: Wait for Router
+      command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router wait_for_ready
+
+    - name: Start Enterprise UI
+      command: removes=/opt/apigee/edge-ui /opt/apigee/apigee-service/bin/apigee-service edge-ui start
+
+    - name: Wait for Enterprise UI
+      command: removes=/opt/apigee/edge-ui /opt/apigee/apigee-service/bin/apigee-service edge-ui wait_for_ready
+
+    - name: Start Developer Portal
+      command: removes=/opt/apigee/apigee-drupal-devportal /opt/apigee/apigee-service/bin/apigee-service apigee-drupal-devportal start
+
+    - name: Wait for Developer Portal
+      command: removes=/opt/apigee/apigee-drupal-devportal /opt/apigee/apigee-service/bin/apigee-service apigee-drupal-devportal wait_for_ready
+
+    - name: Start Developer Portal Load Balancer
+      command: removes=/opt/apigee/apigee-lb /opt/apigee/apigee-service/bin/apigee-service apigee-lb start
+
+    - name: Wait for Developer Portal Load Balancer
+      command: removes=/opt/apigee/apigee-lb /opt/apigee/apigee-service/bin/apigee-service apigee-lb wait_for_ready

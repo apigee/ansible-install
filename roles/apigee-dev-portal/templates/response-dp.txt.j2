@@ -1,0 +1,27 @@
+PG_HOST="{{ apigee.dp.pg_backend }}"
+PG_USER="{{ apigee_dp_postgresql_username }}"
+PG_PWD="{{ apigee_dp_postgresql_password }}"
+
+DEFAULT_DB="postgres"
+PG_NAME="{{ apigee_dp_db_name }}"
+DRUPAL_PG_USER="{{ apigee_dp_db_username }}"
+DRUPAL_PG_PASS="{{ apigee_dp_db_password }}"
+
+PHP_FPM_PORT="{{ apigee_dp_php_port }}"
+
+SMTPHOST="{{ apigee_dp_smtp_host }}"
+SMTPPORT="{{ apigee_dp_smtp_port }}"
+SMTPUSER="{{ apigee_dp_smtp_user }}"
+SMTPPASSWORD="{{ apigee_dp_smtp_password }}"
+SMTPSSL="{{ 'y' if apigee_dp_smtp_ssl|bool else 'n' }}"
+
+DEVPORTAL_ADMIN_FIRSTNAME="{{ apigee_dp_admin_firstname }}"
+DEVPORTAL_ADMIN_LASTNAME="{{ apigee_dp_admin_lastname }}"
+DEVPORTAL_ADMIN_USERNAME="{{ apigee_dp_admin_username }}"
+DEVPORTAL_ADMIN_EMAIL="{{ apigee_dp_admin_email }}"
+DEVPORTAL_ADMIN_PWD="{{ apigee_dp_admin_password }}"
+
+EDGE_ORG="{{ apigee_dp_ms_organization_name }}"
+MGMT_URL="{{ apigee_dp_ms_protocol }}://{{ apigee.msip }}:{{ apigee_dp_ms_port }}/v1"
+DEVADMIN_USER="{{ apigee_dp_ms_admin_email }}"
+DEVADMIN_PWD="{{ apigee_dp_ms_admin_password }}"

@@ -1,0 +1,9 @@
+---
+- name: Copy license file to Management Servers
+  copy:
+    src: '{{ apigee_license_path }}'
+    dest: '{{ apigee_tmp_dir }}/license.txt'
+    owner: apigee
+    group: apigee
+    mode: 0600
+  when: "'ms' in apigee.profiles or 'sa' in apigee.profiles or 'aio' in apigee.profiles"

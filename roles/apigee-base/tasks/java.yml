@@ -1,0 +1,12 @@
+---
+- name: Install JDK {{ apigee_java_package }}
+  yum:
+    pkg: '{{ apigee_java_package }}'
+    state: present
+  when: not apigee_java_package is none
+
+- name: Set Java alternative to {{ apigee_java_alternative }} on Amazon Linux
+  command: alternatives --set java {{ apigee_java_alternative }}
+  when:
+    - ansible_distribution == 'Amazon'
+    - apigee_release != '4.16.01'

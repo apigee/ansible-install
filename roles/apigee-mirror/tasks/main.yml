@@ -1,0 +1,53 @@
+---
+- block:
+
+  - name: Install apigee-mirror
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-mirror install
+
+  - name: Update apigee-mirror
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-mirror update
+
+  - name: Configure Nginx
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-mirror nginxconfig
+
+  - name: Change Nginx port from 3939 to 80
+    replace:
+      dest: /opt/nginx/conf.d/apigee-mirror.conf
+      regexp: 3939
+      replace: 80
+
+  - name: Remove Nginx authentication
+    lineinfile:
+      dest: /opt/nginx/conf.d/apigee-mirror.conf
+      regexp: ^.*auth_.*$
+      state: absent
+
+  - name: Install Nginx service configuration
+    copy:
+      src: apigee-nginx.service
+      dest: /etc/systemd/system/apigee-nginx.service
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Reload systemd
+    command: systemctl daemon-reload
+
+  - name: Start and enable Nginx
+    service:
+      name: apigee-nginx
+      state: started
+      enabled: true
+
+  - name: Synchronize mirror with current release
+    shell: apigeereleasever={{ apigee_release }} /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync
+    when: not apigee_sync_all_releases
+
+  - name: Synchronize mirror with all releases
+    shell: apigeereleasever={{ item }} /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync
+    with_items: '{{ apigee_releases }}'
+    when: apigee_sync_all_releases
+    failed_when: false
+
+  become: true
+  become_user: root

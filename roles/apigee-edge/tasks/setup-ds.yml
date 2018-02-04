@@ -1,0 +1,27 @@
+---
+- name: Set Cassandra limits
+  copy:
+    src: 99-cassandra.conf
+    dest: /etc/security/limits.d/99-cassandra.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Setup Datastores
+  shell: sleep {{ apigee.cass_pause }}; {{ setup }} -f {{ response }} -p ds
+
+- name: Set Cassandra password
+  shell: sleep 5; /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_default_password }} <<< "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
+  when:
+    - apigee_cassandra_authentication
+    - apigee.cass_pause == 0
+
+- name: Configure Cassandra repair job
+  cron:
+    name: apigee-nodetool-repair
+    job: /opt/apigee/apigee-cassandra/bin/nodetool repair
+    user: apigee
+    weekday: 0
+    hour: 0
+    minute: '{{ (apigee.cass_pause / 3) | int }}'
+    state: present

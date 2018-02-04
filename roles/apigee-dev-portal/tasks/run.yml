@@ -1,0 +1,36 @@
+---
+- block:
+
+  #- import_tasks: scan.yml
+  #  when: apigee_scan_ports
+  #  tags:
+  #    - scan
+
+  - name: Create temp directory
+    file:
+      path: '{{ apigee_tmp_dir }}'
+      state: directory
+      owner: apigee
+      group: apigee
+      mode: 0700
+    tags:
+      - response
+
+  - import_tasks: response.yml
+    tags:
+      - response
+
+  - import_tasks: setup.yml
+    tags:
+      - setup
+
+  - name: Clean up
+    file:
+      path: '{{ apigee_tmp_dir }}'
+      state: absent
+    when: apigee_clean_up
+    tags:
+      - response
+
+  become: true
+  become_user: root

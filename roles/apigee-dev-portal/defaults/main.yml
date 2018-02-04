@@ -1,0 +1,86 @@
+---
+apigee_topology:
+  - dc-1 host01 ms
+  - dc-1 host02 ds
+  - dc-1 host03 ds
+  - dc-1 host04 ds
+  - dc-1 host05 rmp
+  - dc-1 host06 rmp
+  - dc-1 host07 qs
+  - dc-1 host08 qs
+  - dc-1 host09 ps
+  - dc-1 host10 pdb,dp
+  - dc-2 host11 ms
+  - dc-2 host12 ds
+  - dc-2 host13 ds
+  - dc-2 host14 ds
+  - dc-2 host15 rmp
+  - dc-2 host16 rmp
+  - dc-2 host17 qs
+  - dc-2 host18 qs
+  - dc-2 host19 ps
+  - dc-2 host20 pdb,dp
+
+apigee_tmp_dir: /tmp/apigee
+apigee_clean_up: true
+# Show Apigee facts.
+apigee_debug: false
+apigee_scan_ports: false
+
+apigee_installation_path: /opt
+apigee_edge_installation_path: '{{ apigee_installation_path }}/apigee'
+apigee_nginx_installation_path: '{{ apigee_installation_path }}/nginx'
+
+apigee_cluster_hostname: '{{ inventory_hostname }}'
+
+apigee_admin_email: opdk@apigee.com
+apigee_admin_password: Apigee11
+
+apigee_postgresql_password: '{{ apigee_admin_password }}'
+
+# Set this to enable mail.
+apigee_smtp_host:
+apigee_smtp_port: 25
+apigee_smtp_user:
+apigee_smtp_password:
+apigee_smtp_ssl: false
+apigee_smtp_mail_from: noreply@apigee.com
+
+apigee_enable_autostart: true
+
+apigee_organization_name: apigee
+
+### Developer Portal ###
+
+# PostgreSQL admin credentials.
+apigee_dp_postgresql_username: apigee
+apigee_dp_postgresql_password: '{{ apigee_postgresql_password }}'
+
+# Developer portal database name and credentials.
+apigee_dp_db_name: devportal
+apigee_dp_db_username: devportal
+apigee_dp_db_password: '{{ apigee_postgresql_password }}'
+
+# PHP settings.
+apigee_dp_php_port: 8888
+
+# SMTP settings.
+apigee_dp_smtp_host: '{{ apigee_smtp_host or "localhost" }}'
+apigee_dp_smtp_port: '{{ apigee_smtp_port }}'
+apigee_dp_smtp_user: '{{ apigee_smtp_user }}'
+apigee_dp_smtp_password: '{{ apigee_smtp_password }}'
+apigee_dp_smtp_ssl: '{{ apigee_smtp_ssl }}'
+
+# Developer portal admin user.
+apigee_dp_admin_firstname: Apigee
+apigee_dp_admin_lastname: OPDK
+apigee_dp_admin_username: opdk
+apigee_dp_admin_email: '{{ apigee_admin_email }}'
+apigee_dp_admin_password: '{{ apigee_admin_password }}'
+
+# Management API connection information.
+apigee_dp_ms_organization_name: '{{ apigee_organization_name }}'
+apigee_dp_ms_protocol: http
+apigee_dp_ms_port: 8080
+apigee_dp_ms_admin_email: '{{ apigee_admin_email }}'
+apigee_dp_ms_admin_password: '{{ apigee_admin_password }}'

@@ -1,0 +1,28 @@
+---
+- name: Setup PostgreSQL master
+  command: '{{ setup }} -f {{ pdb_response }} -p pdb'
+  when:
+    - ansible_default_ipv4.address == apigee.dp.pg_master
+
+- name: Configure replication access
+  lineinfile:
+    dest: /opt/apigee/customer/application/postgresql.properties
+    regexp: ^conf_pg_hba_replication.connection=.*
+    line: '{{ apigee.dp.pg_trust }}'
+    create: yes
+    owner: apigee
+    group: apigee
+    mode: 0644
+  when:
+    - ansible_default_ipv4.address == apigee.dp.pg_master
+    - apigee.dp.pg_standby|length > 1
+  register: trust
+
+- name: Restart PostgreSQL master
+  command: /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql restart
+  when: trust.changed
+
+- name: Setup PostgreSQL standby
+  command: '{{ setup }} -f {{ pdb_response }} -p pdb'
+  when:
+    - ansible_default_ipv4.address != apigee.dp.pg_master

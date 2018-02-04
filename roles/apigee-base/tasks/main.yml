@@ -1,0 +1,51 @@
+---
+- block:
+
+  - import_tasks: selinux.yml
+    tags:
+      - selinux
+
+  - import_tasks: account.yml
+    tags:
+      - account
+
+  - import_tasks: installation-path.yml
+    tags:
+      - installation-path
+
+  - import_tasks: java.yml
+    when: not apigee_java_package is none
+    tags:
+      - java
+
+  - import_tasks: epel.yml
+    when:
+      - apigee_install_epel
+      - apigee_release in apigee_releases_with_epel
+    tags:
+      - epel
+
+  - name: Create temp directory
+    file:
+      path: '{{ apigee_tmp_dir }}'
+      state: directory
+      owner: apigee
+      group: apigee
+      mode: 0700
+    tags:
+      - install
+
+  - import_tasks: install.yml
+    tags:
+      - install
+
+  - name: Clean up
+    file:
+      path: '{{ apigee_tmp_dir }}'
+      state: absent
+    when: apigee_clean_up
+    tags:
+      - install
+
+  become: true
+  become_user: root

@@ -1,0 +1,12 @@
+---
+- name: Set response file path
+  set_fact:
+    response: '{{ apigee_tmp_dir }}/response-edge.txt'
+
+- name: Generate response file
+  template:
+    src: response-edge.txt.j2
+    dest: '{{ response }}'
+    owner: apigee
+    group: apigee
+    mode: 0600

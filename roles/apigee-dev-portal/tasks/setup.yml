@@ -1,0 +1,18 @@
+---
+- name: Set setup.sh path
+  set_fact:
+    setup: /opt/apigee/apigee-setup/bin/setup.sh
+
+- import_tasks: setup-pdb.yml
+  when: ('pdb' in apigee.profiles)
+
+- import_tasks: installation-path.yml
+  when: ('dp' in apigee.profiles)
+
+- name: Setup developer portal servers
+  shell: '{{ setup }} -f {{ dp_response }} -p dp'
+  when: ('dp' in apigee.profiles)
+
+- name: Enable automatic start
+  command: /opt/apigee/apigee-service/bin/apigee-all enable_autostart
+  when: apigee_enable_autostart

@@ -1,0 +1,32 @@
+---
+- name: Scan Datastore ports
+  scan:
+    host: '{{ hostvars[item].ansible_default_ipv4.address }}'
+    ports:
+      - 2181
+      - 2888
+      - 3888
+      - 7000
+      - 9042
+      - 9160
+    closed_is_error: false
+  when:
+    - hostvars[item].apigee
+    - ('ds' in apigee.profiles)
+    - ('ds' in hostvars[item].apigee.profiles)
+  with_items: '{{ play_hosts }}'
+
+- name: Scan Management Server ports
+  scan:
+    host: '{{ hostvars[item].ansible_default_ipv4.address }}'
+    ports:
+      - 2181
+      - 7199
+      - 9042
+      - 9160
+    closed_is_error: false
+  when:
+    - hostvars[item].apigee
+    - ('ms' in apigee.profiles or 'sa' in apigee.profiles or 'sax' in apigee.profiles)
+    - ('ds' in hostvars[item].apigee.profiles)
+  with_items: '{{ play_hosts }}'

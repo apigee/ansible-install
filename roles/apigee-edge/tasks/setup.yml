@@ -1,0 +1,38 @@
+---
+- name: Set setup.sh path
+  set_fact:
+    setup: /opt/apigee/apigee-setup/bin/setup.sh
+
+- import_tasks: setup-ds.yml
+  when: apigee.profiles | intersect(('ds', 'sa', 'aio'))
+
+- name: Setup LDAP servers
+  shell: '{{ setup }} -f {{ response }} -p ld'
+  when: ('ld' in apigee.profiles)
+
+- name: Setup Management servers
+  shell: sleep {{ apigee.ms_pause }}; {{ setup }} -f {{ response }} -p ms
+  when: ('ms' in apigee.profiles)
+
+- name: Set Message Processor limits
+  copy:
+    src: 99-message-processor.conf
+    dest: /etc/security/limits.d/99-message-processor.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: apigee.profiles | intersect(('mp', 'rmp', 'sa', 'aio'))
+
+- import_tasks: installation-path.yml
+  when: apigee.profiles | intersect(('r', 'rmp', 'sa', 'aio'))
+
+- name: Setup gateways and queues
+  command: '{{ setup }} -f {{ response }} -p {{ item }}'
+  with_items: '{{ apigee.profiles }}'
+  when: item in ('r', 'mp', 'rmp', 'qs', 'sa', 'aio')
+
+- import_tasks: setup-ps.yml
+
+- name: Enable automatic start
+  command: /opt/apigee/apigee-service/bin/apigee-all enable_autostart
+  when: apigee_enable_autostart

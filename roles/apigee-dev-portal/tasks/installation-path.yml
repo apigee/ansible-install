@@ -1,0 +1,17 @@
+---
+- name: Create {{ apigee_nginx_installation_path }}
+  file:
+    path: '{{ apigee_nginx_installation_path }}'
+    state: directory
+    owner: apigee
+    group: apigee
+    mode: 0755
+
+- name: Link /opt/nginx to {{ apigee_nginx_installation_path }}
+  file:
+    path: /opt/nginx
+    state: link
+    src: '{{ apigee_nginx_installation_path }}'
+    owner: apigee
+    group: apigee
+  when: apigee_nginx_installation_path != '/opt/nginx'

@@ -1,0 +1,36 @@
+---
+- name: Scan PostgreSQL to PostgreSQL ports
+  scan:
+    host: '{{ hostvars[item].ansible_default_ipv4.address }}'
+    ports:
+      - 5432
+    closed_is_error: no
+  when:
+    - hostvars[item].apigee
+    - (ansible_default_ipv4.address in [apigee.dp.pg_master] + apigee.dp.pg_standby)
+    - (hostvars[item].ansible_default_ipv4 in [apigee.dp.pg_master] + apigee.dp.pg_standby)
+  with_items: '{{ play_hosts }}'
+
+- name: Scan developer portal to PostgreSQL ports
+  scan:
+    host: '{{ hostvars[item].ansible_default_ipv4.address }}'
+    ports:
+      - 5432
+    closed_is_error: no
+  when:
+    - hostvars[item].apigee
+    - ('dp' in apigee.profiles)
+    - (hostvars[item].ansible_default_ipv4 == apigee.dp.pg_backend)
+  with_items: '{{ play_hosts }}'
+
+- name: Scan developer portal to management server ports
+  scan:
+    host: '{{ hostvars[item].ansible_default_ipv4.address }}'
+    ports:
+      - 8080
+    closed_is_error: no
+  when:
+    - hostvars[item].apigee
+    - ('dp' in apigee.profiles)
+    - ('ms' in hostvars[item].apigee.profiles)
+  with_items: '{{ play_hosts }}'

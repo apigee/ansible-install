@@ -1,0 +1,12 @@
+---
+- name: Install EPEL on Red Hat
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
+    state: present
+  when: ansible_distribution == 'RedHat'
+
+- name: Install EPEL on CentOS
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == 'CentOS'

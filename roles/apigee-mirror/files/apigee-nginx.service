@@ -1,0 +1,11 @@
+[Unit]
+Description=Apigee Nginx
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/nginx/scripts/apigee-nginx start
+ExecStop=/opt/nginx/scripts/apigee-nginx stop
+
+[Install]
+WantedBy=multi-user.target

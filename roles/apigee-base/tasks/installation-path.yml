@@ -1,0 +1,17 @@
+---
+- name: Create {{ apigee_edge_installation_path }}
+  file:
+    path: '{{ apigee_edge_installation_path }}'
+    state: directory
+    owner: apigee
+    group: apigee
+    mode: 0755
+
+- name: Link /opt/apigee to {{ apigee_edge_installation_path }}
+  file:
+    path: /opt/apigee
+    state: link
+    src: '{{ apigee_edge_installation_path }}'
+    owner: apigee
+    group: apigee
+  when: apigee_edge_installation_path != '/opt/apigee'

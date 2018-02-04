@@ -1,0 +1,17 @@
+---
+- name: Create apigee group
+  group:
+    name: apigee
+    system: yes
+    state: present
+
+- name: Create apigee user
+  user:
+    name: apigee
+    system: yes
+    group: apigee
+    comment: Apigee platform user
+    home: /opt/apigee
+    createhome: no
+    shell: /sbin/nologin
+    state: present

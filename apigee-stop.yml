@@ -1,0 +1,42 @@
+---
+- hosts: apigee
+  gather_facts: no
+  tasks:
+    - name: Stop Developer Portal Load Balancer
+      command: removes=/opt/apigee/apigee-lb /opt/apigee/apigee-service/bin/apigee-service apigee-lb stop
+
+    - name: Stop Developer Portal
+      command: removes=/opt/apigee/apigee-drupal-devportal /opt/apigee/apigee-service/bin/apigee-service apigee-drupal-devportal stop
+
+    - name: Stop Management Server
+      command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server stop
+
+    - name: Stop Message Processor
+      command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor stop
+
+    - name: Stop Postgres Server
+      command: removes=/opt/apigee/edge-postgres-server /opt/apigee/apigee-service/bin/apigee-service edge-postgres-server stop
+
+    - name: Stop Qpid Server
+      command: removes=/opt/apigee/edge-qpid-server /opt/apigee/apigee-service/bin/apigee-service edge-qpid-server stop
+
+    - name: Stop Router
+      command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router stop
+
+    - name: Stop Enterprise UI
+      command: removes=/opt/apigee/edge-ui /opt/apigee/apigee-service/bin/apigee-service edge-ui stop
+
+    - name: Stop Cassandra
+      command: removes=/opt/apigee/apigee-cassandra /opt/apigee/apigee-service/bin/apigee-service apigee-cassandra stop
+
+    - name: Stop OpenLDAP
+      command: removes=/opt/apigee/apigee-openldap /opt/apigee/apigee-service/bin/apigee-service apigee-openldap stop
+
+    - name: Stop PostgreSQL
+      command: removes=/opt/apigee/apigee-postgresql /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql stop
+
+    - name: Stop Qpid
+      command: removes=/opt/apigee/apigee-qpidd /opt/apigee/apigee-service/bin/apigee-service apigee-qpidd stop
+
+    - name: Stop Zookeeper
+      command: removes=/opt/apigee/apigee-zookeeper /opt/apigee/apigee-service/bin/apigee-service apigee-zookeeper stop
