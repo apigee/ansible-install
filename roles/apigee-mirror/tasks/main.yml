@@ -42,6 +42,7 @@
   - name: Synchronize mirror with current release
     shell: apigeereleasever={{ apigee_release }} /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync
     when: not apigee_sync_all_releases
+    failed_when: false
 
   - name: Synchronize mirror with all releases
     shell: apigeereleasever={{ item }} /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync
