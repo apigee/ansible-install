@@ -12,7 +12,12 @@
   when: not apigee_bootstrap_url is none
 
 - name: Bootstrap from {{ apigee_repository_url }}
-  command: creates=/opt/apigee/apigee-service /bin/bash {{ apigee_bootstrap_path }} apigeeprotocol={{ apigee_repository_protocol }} apigeerepohost={{ apigee_repository_address }} apigeerepobasepath={{ apigee_repository_base_path }} apigeestage={{ apigee_repository_stage }} apigeeuser={{ apigee_repository_username }} apigeepassword={{ apigee_repository_password }}
+  command: /bin/bash {{ apigee_bootstrap_path }} apigeeprotocol={{ apigee_repository_protocol }} apigeerepohost={{ apigee_repository_address }} apigeerepobasepath={{ apigee_repository_base_path }} apigeestage={{ apigee_repository_stage }} apigeeuser={{ apigee_repository_username }} apigeepassword={{ apigee_repository_password }}
 
 - name: Install Apigee setup
   shell: creates=/opt/apigee/apigee-setup /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
+  register: apigee_setup
+
+- name: Update Apigee setup
+  shell: /opt/apigee/apigee-service/bin/apigee-service apigee-setup update
+  when: not apigee_setup.changed
