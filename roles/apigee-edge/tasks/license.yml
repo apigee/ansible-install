@@ -6,4 +6,4 @@
     owner: apigee
     group: apigee
     mode: 0600
-  when: "'ms' in apigee.profiles or 'sa' in apigee.profiles or 'aio' in apigee.profiles"
+  when: apigee.profiles | intersect(('ms', 'sa', 'aio'))
