@@ -16,3 +16,4 @@
 - name: Enable automatic start
   command: /opt/apigee/apigee-service/bin/apigee-all enable_autostart
   when: apigee_enable_autostart
+  failed_when: false
