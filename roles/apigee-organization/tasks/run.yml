@@ -18,10 +18,16 @@
       tags:
         - setup
 
+    - name: Set response file path
+      set_fact:
+        apigee_response_file_path: '{{ apigee_tmp_dir }}/response-org-{{ apigee_organization_name }}-{{ apigee_environment_name }}-{{ apigee_virtual_host_name }}.txt'
+      tags:
+        - response
+
     - name: Generate response file
       template:
         src: response-org.txt.j2
-        dest: '{{ apigee_tmp_dir }}/response-org-{{ apigee_organization_name }}-{{ apigee_environment_name }}-{{ apigee_virtual_host_name }}.txt'
+        dest: '{{ apigee_response_file_path }}'
         owner: apigee
         group: apigee
         mode: 0600
@@ -30,7 +36,7 @@
         - response
 
     - name: Create organization
-      command: /opt/apigee/apigee-service/bin/apigee-service apigee-provision setup-org -f {{ response_file.path }}
+      command: /opt/apigee/apigee-service/bin/apigee-service apigee-provision setup-org -f {{ apigee_response_file_path }}
       tags:
         - setup
 
