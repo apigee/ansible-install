@@ -5,7 +5,7 @@
     state: directory
     owner: apigee
     group: apigee
-    mode: 0755
+    mode: 0775
 
 - name: Link /opt/apigee to {{ apigee_edge_installation_path }}
   file:
