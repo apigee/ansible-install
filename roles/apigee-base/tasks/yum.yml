@@ -1,0 +1,8 @@
+---
+- name: Install Yum utilities
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - yum-plugin-priorities
+    - yum-utils

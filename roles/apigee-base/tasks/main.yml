@@ -18,6 +18,10 @@
     tags:
       - java
 
+  - import_tasks: yum.yml
+    tags:
+      - yum
+
   - import_tasks: epel.yml
     when:
       - apigee_install_epel
