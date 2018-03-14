@@ -1,32 +1,89 @@
 ---
-- name: Generate obfuscated password
-  script: ../scripts/generate_obf.sh {{ apigee_tls_mp_password }}
-  args:
-    removes: /opt/apigee/edge-message-processor
-  register: apigee_tls_mp_obf_password
+- name: Check for message processor
+  stat:
+    path: /opt/apigee/edge-message-processor
+  register: apigee_mp_path
 
-- name: Copy {{ apigee_tls_mp_keystore }} to {{ inventory_hostname }}:{{ apigee_tls_mp_keystore_dest }}
-  copy:
-    src: '{{ apigee_tls_mp_keystore }}'
-    dest: '{{ apigee_tls_mp_keystore_dest }}'
-    owner: apigee
-    group: apigee
-    mode: 0600
 
-- name: Set properties in {{ apigee_tls_mp_properties_path }}
-  lineinfile:
-    path: '{{ apigee_tls_mp_properties_path }}'
-    regexp: '^{{ item.key }}=.*$'
-    line: '{{ item.key}}={{ item.value }}'
-    state: present
-    create: true
-    owner: apigee
-    group: apigee
-    mode: 0600
-  with_dict: '{{ apigee_tls_mp_properties }}'
+- block:
+
+  - import_role:
+      name: apigee-tls-keystore
+    vars:
+      - apigee_tls_keystore_type: '{{ apigee_tls_mp_keystore_type }}'
+      - apigee_tls_keystore_dest: '{{ apigee_tls_mp_keystore_dest }}'
+      - apigee_tls_keystore_validity: '{{ apigee_tls_mp_keystore_validity }}'
+      - apigee_tls_keystore_src: '{{ apigee_tls_mp_keystore_src }}'
+      - apigee_tls_keystore_keyalias: '{{ apigee_tls_mp_keystore_keyalias }}'
+      - apigee_tls_keystore_password: '{{ apigee_tls_mp_keystore_password }}'
+
+  - name: Generate obfuscated password
+    script: ../scripts/generate_obf.sh {{ apigee_tls_mp_keystore_password }}
+    register: apigee_tls_obf_password
+
+  - set_fact:
+      apigee_tls_mp_properties:
+        - regexp: conf_message-processor-communication_local.http.ssl
+          key: conf_message-processor-communication_local.http.ssl
+          value: true
+
+        - regexp: conf/message-processor-communication.properties\+local.http.port
+          key: conf/message-processor-communication.properties+local.http.port
+          value: '{{ apigee_tls_mp_port }}'
+
+        - regexp: conf/message-processor-communication.properties\+local.http.ssl.keystore.type
+          key: conf/message-processor-communication.properties+local.http.ssl.keystore.type
+          value: '{{ apigee_tls_mp_keystore_type }}'
+
+        - regexp: conf/message-processor-communication.properties\+local.http.ssl.keystore.path
+          key: conf/message-processor-communication.properties+local.http.ssl.keystore.path
+          value: '{{ apigee_tls_mp_keystore_dest }}'
+
+        - regexp: conf/message-processor-communication.properties\+local.http.ssl.keystore.password
+          key: conf/message-processor-communication.properties+local.http.ssl.keystore.password
+          value: '{{ apigee_tls_obf_password.stdout.strip() }}'
+
+        - regexp: conf/message-processor-communication.properties\+local.http.ssl.keyalias
+          key: conf/message-processor-communication.properties+local.http.ssl.keyalias
+          value: '{{ apigee_tls_mp_keystore_keyalias }}'
+
+  - name: Update {{ apigee_tls_mp_properties_path }}
+    lineinfile:
+      path: '{{ apigee_tls_mp_properties_path }}'
+      regexp: '^{{ item.regexp }}=.*$'
+      line: '{{ item.key }}={{ item.value }}'
+      state: present
+      create: true
+      owner: apigee
+      group: apigee
+      mode: 0600
+    with_items: '{{ apigee_tls_mp_properties }}'
+
+  when: apigee_mp_path.stat.exists
+
 
 - name: Restart message processor
   command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor restart
 
-- name: Restart router
-  command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router restart
+- name: Stop router
+  command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router stop
+
+- name: Stat Nginx conf directory
+  stat:
+    path: /opt/nginx/conf.d
+  register: apigee_nginx_conf
+
+- name: Recreate Nginx conf directory
+  file:
+    path: /opt/nginx/conf.d
+    owner: '{{ apigee_nginx_conf.stat.pw_name }}'
+    group: '{{ apigee_nginx_conf.stat.gr_name }}'
+    mode: '{{ apigee_nginx_conf.stat.mode }}'
+    state: '{{ item }}'
+  with_items:
+    - absent
+    - directory
+  when: apigee_nginx_conf.stat.exists
+
+- name: Start router
+  command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router start

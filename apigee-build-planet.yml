@@ -4,6 +4,8 @@
   roles:
     - apigee-base
     - apigee-edge
+    - apigee-tls-ms
+    - apigee-tls-mp
     - apigee-organization
     - apigee-dev-portal
   vars:

@@ -1,0 +1,30 @@
+---
+- block:
+
+  - name: Copy keystore to {{ inventory_hostname }}:{{ apigee_tls_keystore_dest }}
+    copy:
+      src: '{{ apigee_tls_keystore_src }}'
+      dest: '{{ apigee_tls_keystore_dest }}'
+
+  when: apigee_tls_keystore_src is not none
+
+
+- block:
+
+  - name: Remove keystore
+    file:
+      path: '{{ apigee_tls_keystore_dest }}'
+      state: absent
+
+  - name: Generate keystore
+    command: keytool -genkeypair -keystore {{ apigee_tls_keystore_dest }} -alias {{ apigee_tls_keystore_keyalias or 'apigee' }} -dname CN={{ apigee_tls_keystore_keyalias or 'apigee' }} -validity {{ apigee_tls_keystore_validity }} -storepass {{ apigee_tls_keystore_password or apigee_admin_password }} -keypass {{ apigee_tls_keystore_password or apigee_admin_password }}
+
+  when: apigee_tls_keystore_src is none
+
+
+- name: Set keystore ownership and permissions
+  file:
+    path: '{{ apigee_tls_keystore_dest }}'
+    owner: apigee
+    group: apigee
+    mode: 0600

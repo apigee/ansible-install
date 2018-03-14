@@ -1,0 +1,15 @@
+---
+apigee_admin_password: Apigee11
+
+apigee_tls_ms_keystore_type: jks
+apigee_tls_ms_keystore_dest: /opt/apigee/customer/keystore-ms.jks
+apigee_tls_ms_keystore_validity: 7300
+
+# Set these for an existing keystore
+apigee_tls_ms_keystore_src:
+apigee_tls_ms_keystore_keyalias: apigee-ms
+apigee_tls_ms_keystore_password: '{{ apigee_admin_password }}'
+
+apigee_tls_ms_plaintext_disabled: false
+apigee_tls_ms_port: 8443
+apigee_tls_ms_properties_path: /opt/apigee/customer/application/management-server.properties
