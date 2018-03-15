@@ -29,13 +29,8 @@
     tags:
       - epel
 
-  - name: Create temp directory
-    file:
-      path: '{{ apigee_tmp_dir }}'
-      state: directory
-      owner: apigee
-      group: apigee
-      mode: 0700
+  - import_role:
+      name: apigee-tmp-dir
     tags:
       - install
 
@@ -43,11 +38,9 @@
     tags:
       - install
 
-  - name: Clean up
-    file:
-      path: '{{ apigee_tmp_dir }}'
-      state: absent
-    when: apigee_clean_up
+  - import_role:
+      name: apigee-tmp-dir
+      tasks_from: clean-up.yml
     tags:
       - install
 

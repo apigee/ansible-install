@@ -1,0 +1,8 @@
+---
+- name: Create temp directory
+  file:
+    path: '{{ apigee_tmp_dir }}'
+    state: directory
+    owner: apigee
+    group: apigee
+    mode: 0700

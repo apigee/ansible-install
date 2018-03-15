@@ -1,0 +1,3 @@
+---
+apigee_tmp_dir: /tmp/apigee
+apigee_clean_up: true

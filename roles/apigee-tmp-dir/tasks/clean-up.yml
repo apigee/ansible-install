@@ -1,0 +1,6 @@
+---
+- name: Clean up
+  file:
+    path: '{{ apigee_tmp_dir }}'
+    state: absent
+  when: apigee_clean_up
