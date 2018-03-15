@@ -65,6 +65,9 @@
 - name: Restart message processor
   command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor restart
 
+- name: Wait for message processor to be ready
+  command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor wait_for_ready
+
 - name: Stop router
   command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router stop
 
@@ -87,3 +90,6 @@
 
 - name: Start router
   command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router start
+
+- name: Wait for router to be ready
+  command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router wait_for_ready

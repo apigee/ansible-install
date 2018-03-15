@@ -58,3 +58,6 @@
 
 - name: Restart management server
   command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server restart
+
+- name: Wait for management server to be ready
+  command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server wait_for_ready
