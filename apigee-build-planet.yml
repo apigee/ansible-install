@@ -5,6 +5,7 @@
     - apigee-base
     - apigee-edge
     - apigee-tls-ms
+    - apigee-tls-ui
     - apigee-tls-mp
     - apigee-organization
     - apigee-dev-portal
