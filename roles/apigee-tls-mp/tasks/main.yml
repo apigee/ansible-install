@@ -97,4 +97,4 @@
     command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router wait_for_ready
 
   become: true
-  become_user: apigee
+  become_user: '{{ apigee_become_user }}'

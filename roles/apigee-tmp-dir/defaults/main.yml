@@ -1,3 +1,5 @@
 ---
+apigee_become_user: apigee
+
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true

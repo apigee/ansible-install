@@ -1,4 +1,6 @@
 ---
+apigee_become_user: apigee
+
 apigee_tls_ms_keystore_type: jks
 apigee_tls_ms_keystore_dest: /opt/apigee/customer/keystore-ms.jks
 apigee_tls_ms_keystore_validity: 7300

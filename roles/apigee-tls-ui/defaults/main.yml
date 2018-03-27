@@ -1,4 +1,6 @@
 ---
+apigee_become_user: apigee
+
 apigee_tmp_dir: /tmp/apigee
 
 apigee_tls_ui_keystore_type: jks

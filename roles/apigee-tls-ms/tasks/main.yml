@@ -65,4 +65,4 @@
     command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server wait_for_ready
 
   become: true
-  become_user: apigee
+  become_user: '{{ apigee_become_user }}'
