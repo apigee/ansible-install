@@ -67,3 +67,15 @@
     apigee_dp_admin_username: opdk
     apigee_dp_admin_email: opdk@apigee.com
     apigee_dp_admin_password: Apigee11
+
+    # apigee-tls
+    # Set these to use existing keystores.
+    #apigee_tls_ms_keystore_src:
+    #apigee_tls_ms_keystore_keyalias:
+    #apigee_tls_ms_keystore_password:
+    #apigee_tls_ui_keystore_src:
+    #apigee_tls_ui_keystore_keyalias:
+    #apigee_tls_ui_keystore_password:
+    #apigee_tls_mp_keystore_src:
+    #apigee_tls_mp_keystore_keyalias:
+    #apigee_tls_mp_keystore_password:
