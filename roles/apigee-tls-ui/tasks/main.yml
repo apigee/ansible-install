@@ -1,46 +1,51 @@
 ---
-- name: Check for Edge UI
-  stat:
-    path: /opt/apigee/edge-ui
-  register: apigee_ui_path
-
-
 - block:
 
-  - import_role:
-      name: apigee-tmp-dir
+  - name: Check for Edge UI
+    stat:
+      path: /opt/apigee/edge-ui
+    register: apigee_ui_path
 
-  - import_role:
-      name: apigee-tls-keystore
-    vars:
-      - apigee_tls_keystore_type: '{{ apigee_tls_ui_keystore_type }}'
-      - apigee_tls_keystore_dest: '{{ apigee_tls_ui_keystore_dest }}'
-      - apigee_tls_keystore_validity: '{{ apigee_tls_ui_keystore_validity }}'
-      - apigee_tls_keystore_src: '{{ apigee_tls_ui_keystore_src }}'
-      - apigee_tls_keystore_keyalias: '{{ apigee_tls_ui_keystore_keyalias }}'
-      - apigee_tls_keystore_password: '{{ apigee_tls_ui_keystore_password }}'
 
-  - name: Set response file path
-    set_fact:
-      response: '{{ apigee_tmp_dir }}/response-tls-ui.txt'
-    tags:
-      - response
+  - block:
 
-  - name: Generate response file
-    template:
-      src: response-tls-ui.txt.j2
-      dest: '{{ response }}'
-      owner: apigee
-      group: apigee
-      mode: 0600
+    - import_role:
+        name: apigee-tmp-dir
 
-  - name: Enable TLS
-    command: /opt/apigee/apigee-service/bin/apigee-service edge-ui configure-ssl -f {{ response }}
+    - import_role:
+        name: apigee-tls-keystore
+      vars:
+        - apigee_tls_keystore_type: '{{ apigee_tls_ui_keystore_type }}'
+        - apigee_tls_keystore_dest: '{{ apigee_tls_ui_keystore_dest }}'
+        - apigee_tls_keystore_validity: '{{ apigee_tls_ui_keystore_validity }}'
+        - apigee_tls_keystore_src: '{{ apigee_tls_ui_keystore_src }}'
+        - apigee_tls_keystore_keyalias: '{{ apigee_tls_ui_keystore_keyalias }}'
+        - apigee_tls_keystore_password: '{{ apigee_tls_ui_keystore_password }}'
 
-  always:
+    - name: Set response file path
+      set_fact:
+        response: '{{ apigee_tmp_dir }}/response-tls-ui.txt'
+      tags:
+        - response
 
-  - import_role:
-      name: apigee-tmp-dir
-      tasks_from: clean-up.yml
+    - name: Generate response file
+      template:
+        src: response-tls-ui.txt.j2
+        dest: '{{ response }}'
+        owner: apigee
+        group: apigee
+        mode: 0600
 
-  when: apigee_ui_path.stat.exists
+    - name: Enable TLS
+      command: /opt/apigee/apigee-service/bin/apigee-service edge-ui configure-ssl -f {{ response }}
+
+    always:
+
+    - import_role:
+        name: apigee-tmp-dir
+        tasks_from: clean-up.yml
+
+    when: apigee_ui_path.stat.exists
+
+  become: true
+  become_user: apigee

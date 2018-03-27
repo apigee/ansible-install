@@ -1,63 +1,68 @@
 ---
-- name: Check for management server
-  stat:
-    path: /opt/apigee/edge-management-server
-  register: apigee_ms_path
-
-
 - block:
 
-  - import_role:
-      name: apigee-tls-keystore
-    vars:
-      - apigee_tls_keystore_type: '{{ apigee_tls_ms_keystore_type }}'
-      - apigee_tls_keystore_dest: '{{ apigee_tls_ms_keystore_dest }}'
-      - apigee_tls_keystore_validity: '{{ apigee_tls_ms_keystore_validity }}'
-      - apigee_tls_keystore_src: '{{ apigee_tls_ms_keystore_src }}'
-      - apigee_tls_keystore_keyalias: '{{ apigee_tls_ms_keystore_keyalias }}'
-      - apigee_tls_keystore_password: '{{ apigee_tls_ms_keystore_password }}'
-
-  - name: Generate obfuscated password
-    script: ../scripts/generate_obf.sh {{ apigee_tls_ms_keystore_password }}
-    register: apigee_tls_obf_password
-
-  - set_fact:
-      apigee_tls_ms_properties:
-        - key: conf_webserver_ssl.enabled
-          value: true
-
-        - key: conf_webserver_http.turn.off
-          value: '{{ apigee_tls_ms_plaintext_disabled }}'
-
-        - key: conf_webserver_ssl.port
-          value: '{{ apigee_tls_ms_port }}'
-
-        - key: conf_webserver_keystore.path
-          value: '{{ apigee_tls_ms_keystore_dest }}'
-
-        - key: conf_webserver_keystore.password
-          value: '{{ apigee_tls_obf_password.stdout.strip() }}'
-
-        - key: conf_webserver_cert.alias
-          value: '{{ apigee_tls_ms_keystore_keyalias }}'
-
-  - name: Update {{ apigee_tls_ms_properties_path }}
-    lineinfile:
-      path: '{{ apigee_tls_ms_properties_path }}'
-      regexp: '^{{ item.key }}=.*$'
-      line: '{{ item.key }}={{ item.value }}'
-      state: present
-      create: true
-      owner: apigee
-      group: apigee
-      mode: 0600
-    with_items: '{{ apigee_tls_ms_properties }}'
-
-  when: apigee_ms_path.stat.exists
+  - name: Check for management server
+    stat:
+      path: /opt/apigee/edge-management-server
+    register: apigee_ms_path
 
 
-- name: Restart management server
-  command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server restart
+  - block:
 
-- name: Wait for management server to be ready
-  command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server wait_for_ready
+    - import_role:
+        name: apigee-tls-keystore
+      vars:
+        - apigee_tls_keystore_type: '{{ apigee_tls_ms_keystore_type }}'
+        - apigee_tls_keystore_dest: '{{ apigee_tls_ms_keystore_dest }}'
+        - apigee_tls_keystore_validity: '{{ apigee_tls_ms_keystore_validity }}'
+        - apigee_tls_keystore_src: '{{ apigee_tls_ms_keystore_src }}'
+        - apigee_tls_keystore_keyalias: '{{ apigee_tls_ms_keystore_keyalias }}'
+        - apigee_tls_keystore_password: '{{ apigee_tls_ms_keystore_password }}'
+
+    - name: Generate obfuscated password
+      script: ../scripts/generate_obf.sh {{ apigee_tls_ms_keystore_password }}
+      register: apigee_tls_obf_password
+
+    - set_fact:
+        apigee_tls_ms_properties:
+          - key: conf_webserver_ssl.enabled
+            value: true
+
+          - key: conf_webserver_http.turn.off
+            value: '{{ apigee_tls_ms_plaintext_disabled }}'
+
+          - key: conf_webserver_ssl.port
+            value: '{{ apigee_tls_ms_port }}'
+
+          - key: conf_webserver_keystore.path
+            value: '{{ apigee_tls_ms_keystore_dest }}'
+
+          - key: conf_webserver_keystore.password
+            value: '{{ apigee_tls_obf_password.stdout.strip() }}'
+
+          - key: conf_webserver_cert.alias
+            value: '{{ apigee_tls_ms_keystore_keyalias }}'
+
+    - name: Update {{ apigee_tls_ms_properties_path }}
+      lineinfile:
+        path: '{{ apigee_tls_ms_properties_path }}'
+        regexp: '^{{ item.key }}=.*$'
+        line: '{{ item.key }}={{ item.value }}'
+        state: present
+        create: true
+        owner: apigee
+        group: apigee
+        mode: 0600
+      with_items: '{{ apigee_tls_ms_properties }}'
+
+    when: apigee_ms_path.stat.exists
+
+
+  - name: Restart management server
+    command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server restart
+
+  - name: Wait for management server to be ready
+    command: removes=/opt/apigee/edge-management-server /opt/apigee/apigee-service/bin/apigee-service edge-management-server wait_for_ready
+
+  become: true
+  become_user: apigee
