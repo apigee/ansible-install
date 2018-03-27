@@ -1,8 +1,13 @@
 ---
-- name: Create temp directory
-  file:
-    path: '{{ apigee_tmp_dir }}'
-    state: directory
-    owner: apigee
-    group: apigee
-    mode: 0700
+- block:
+
+  - name: Create temp directory
+    file:
+      path: '{{ apigee_tmp_dir }}'
+      state: directory
+      owner: apigee
+      group: apigee
+      mode: 0700
+
+  become: true
+  become_user: apigee
