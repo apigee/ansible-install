@@ -1,0 +1,27 @@
+---
+- block:
+
+  - name: Install apigee-validate
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
+    args:
+      creates: /opt/apigee/apigee-validate
+
+  - name: Update apigee-validate
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-validate update
+
+  - name: Setup apigee-validate
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-validate setup
+    environment:
+      APIGEE_ADMINPW: '{{ apigee_admin_password }}'
+
+  - name: Clean apigee-validate
+    command: /opt/apigee/apigee-service/bin/apigee-service apigee-validate clean
+    environment:
+      APIGEE_ADMINPW: '{{ apigee_admin_password }}'
+      'YES': y
+
+  when:
+    - apigee.profiles | intersect(('ms', 'sa', 'aio'))
+    - apigee.ms_pause == 0
+  become: true
+  become_user: root

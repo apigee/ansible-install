@@ -1,0 +1,6 @@
+---
+- name: Set Apigee facts
+  apigee_facts:
+    hostvars: '{{ hostvars }}'
+    topology: '{{ apigee_topology }}'
+    my_hostname: '{{ apigee_cluster_hostname }}'

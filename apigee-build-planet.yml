@@ -9,6 +9,7 @@
     - apigee-tls-mp
     - apigee-organization
     - apigee-dev-portal
+    - apigee-validate
   vars:
     apigee_topology:
       - dc-1 host01 ms

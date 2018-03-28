@@ -1,0 +1,4 @@
+---
+apigee_cluster_hostname: '{{ inventory_hostname }}'
+
+apigee_admin_password: Apigee11
