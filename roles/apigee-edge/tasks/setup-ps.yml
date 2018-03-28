@@ -32,3 +32,9 @@
   when:
     - item in ('ps', 'sax')
     - ansible_default_ipv4.address != apigee.pg_master
+
+# Bug workaround
+- name: Generate Telegraf configuration files
+  command: /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql setup -f {{ response }}
+  args:
+    removes: /opt/apigee/apigee-postgresql
