@@ -9,6 +9,11 @@
 - import_tasks: installation-path.yml
   when: ('dp' in apigee.profiles)
 
+- name: Install sendmail
+  package:
+    name: sendmail
+    state: present
+
 - name: Setup developer portal servers
   shell: '{{ setup }} -f {{ dp_response }} -p dp'
   when: ('dp' in apigee.profiles)
