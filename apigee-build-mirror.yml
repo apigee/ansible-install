@@ -1,7 +1,7 @@
 ---
 - hosts: apigee-mirror
   roles:
-    - apigee-base
+    - apigee-bootstrap
     - apigee-mirror
   vars:
     apigee_repository_username: SET_ME

@@ -2,6 +2,7 @@
 - hosts: apigee
   max_fail_percentage: 0
   roles:
+    - apigee-bootstrap
     - apigee-base
     - apigee-edge
     - apigee-tls-ms

@@ -1,0 +1,27 @@
+---
+apigee_tmp_dir: /tmp/apigee
+apigee_clean_up: true
+
+apigee_installation_path: /opt
+apigee_edge_installation_path: '{{ apigee_installation_path }}/apigee'
+apigee_nginx_installation_path: '{{ apigee_installation_path }}/nginx'
+
+apigee_java_version: 8
+# Leave this blank to skip Java installation.
+apigee_java_package: java-1.{{ apigee_java_version }}.0-openjdk-devel
+# Amazon Linux installs Java 1.7 by default and places a higher priority on it than Java 1.8.
+# You may wish to set this if you are installing the Oracle JDK on Amazon Linux.
+apigee_java_alternative: /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+
+apigee_release: 4.18.01
+
+apigee_repository_protocol: https://
+apigee_repository_address: software.apigee.com
+apigee_repository_base_path: /
+apigee_repository_stage: release
+# If these are empty the bootstrap will hang at a prompt.
+apigee_repository_username: SET_ME
+apigee_repository_password: SET_ME
+apigee_repository_url: '{{ apigee_repository_protocol }}{{ apigee_repository_address }}{{ apigee_repository_base_path.rstrip("/") }}/'
+apigee_bootstrap_url: '{{ apigee_repository_url }}bootstrap_{{ apigee_release }}.sh'
+apigee_bootstrap_path: '{{ apigee_tmp_dir }}/bootstrap_{{ apigee_release }}.sh'

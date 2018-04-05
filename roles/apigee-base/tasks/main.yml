@@ -1,23 +1,6 @@
 ---
 - block:
 
-  - import_tasks: selinux.yml
-    tags:
-      - selinux
-
-  - import_tasks: account.yml
-    tags:
-      - account
-
-  - import_tasks: installation-path.yml
-    tags:
-      - installation-path
-
-  - import_tasks: java.yml
-    when: not apigee_java_package is none
-    tags:
-      - java
-
   - import_tasks: yum.yml
     tags:
       - yum
@@ -28,21 +11,6 @@
       - apigee_release in apigee_releases_with_epel
     tags:
       - epel
-
-  - import_role:
-      name: apigee-tmp-dir
-    tags:
-      - install
-
-  - import_tasks: install.yml
-    tags:
-      - install
-
-  - import_role:
-      name: apigee-tmp-dir
-      tasks_from: clean-up.yml
-    tags:
-      - install
 
   become: true
   become_user: root
