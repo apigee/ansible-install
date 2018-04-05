@@ -13,6 +13,7 @@
   package:
     name: sendmail
     state: present
+  when: ('dp' in apigee.profiles)
 
 - name: Setup developer portal servers
   shell: '{{ setup }} -f {{ dp_response }} -p dp'
