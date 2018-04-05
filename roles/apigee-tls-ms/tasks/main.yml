@@ -26,7 +26,7 @@
     - set_fact:
         apigee_tls_ms_properties:
           - key: conf_webserver_ssl.enabled
-            value: true
+            value: 'true'
 
           - key: conf_webserver_http.turn.off
             value: '{{ apigee_tls_ms_plaintext_disabled }}'

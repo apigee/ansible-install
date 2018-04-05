@@ -27,7 +27,7 @@
         apigee_tls_mp_properties:
           - regexp: conf_message-processor-communication_local.http.ssl
             key: conf_message-processor-communication_local.http.ssl
-            value: true
+            value: 'true'
 
           - regexp: conf/message-processor-communication.properties\+local.http.port
             key: conf/message-processor-communication.properties+local.http.port
