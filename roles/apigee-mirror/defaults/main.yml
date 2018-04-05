@@ -9,3 +9,9 @@ apigee_releases:
   - 4.18.01
 apigee_release: '{{ apigee_releases[-1] }}'
 apigee_sync_all_releases: false
+
+apigee_mirror_port: 3939
+apigee_mirror_username: admin
+apigee_mirror_password: admin
+
+apigee_enable_autostart: true

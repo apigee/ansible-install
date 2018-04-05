@@ -1,0 +1,11 @@
+---
+- name: Install Nginx service configuration
+  copy:
+    src: apigee-nginx.service
+    dest: /etc/systemd/system/apigee-nginx.service
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Reload systemd
+  command: systemctl daemon-reload
