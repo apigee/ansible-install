@@ -14,6 +14,10 @@
   shell: sleep {{ apigee.ms_pause }}; {{ setup }} -f {{ response }} -p ms
   when: ('ms' in apigee.profiles)
 
+# For clustered installations.
+- import_tasks: setup-ds-keyspace.yml
+  when: ('ds' in apigee.profiles)
+
 - name: Set Message Processor limits
   copy:
     src: 99-message-processor.conf
@@ -30,6 +34,10 @@
   command: '{{ setup }} -f {{ response }} -p {{ item }}'
   with_items: '{{ apigee.profiles }}'
   when: item in ('r', 'mp', 'rmp', 'qs', 'sa', 'aio')
+
+# For standalone installations.
+- import_tasks: setup-ds-keyspace.yml
+  when: apigee.profiles | intersect(('sa', 'aio'))
 
 - import_tasks: setup-ps.yml
 

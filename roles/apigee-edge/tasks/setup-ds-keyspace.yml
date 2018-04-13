@@ -1,0 +1,22 @@
+---
+# Make sure system_auth keyspace is not a single point of failure.
+- block:
+
+
+    - block:
+
+      - name: Determine Cassandra system_auth keyspace options
+        shell: /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_password }} -e 'DESCRIBE KEYSPACE kms;' | grep -o 'WITH replication.*'
+        register: apigee_cassandra_keyspace_options
+
+      - name: Set Cassandra system_auth keyspace options
+        command: /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_password }} -e "ALTER KEYSPACE system_auth {{ apigee_cassandra_keyspace_options.stdout }}"
+
+      when: apigee.cass_pause == 0
+
+
+    - name: Repair system_auth keyspace
+      command: /opt/apigee/apigee-cassandra/bin/nodetool repair system_auth
+
+  when:
+    - apigee_cassandra_authentication

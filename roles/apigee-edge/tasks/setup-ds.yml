@@ -11,17 +11,17 @@
   shell: sleep {{ apigee.cass_pause }}; {{ setup }} -f {{ response }} -p ds
 
 # Try to change the Cassandra password from the default to the new password. If it fails, that probably means setup was
-# already run in the past and the password is no longer the default. To be sure, set the password to its expected
-# current value. That will eliminate a connection error as the cause.
+# already run in the past and the default password is no longer in use. To be sure, set the password to its expected
+# current value. That will eliminate a connection error as the cause of the failure.
 - block:
 
   - name: Set Cassandra password
-    shell: sleep 5; /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_default_password }} <<< "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
+    shell: sleep 5; /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_default_password }} -e "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
 
   rescue:
 
   - name: Set Cassandra password
-    shell: /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_password }} <<< "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
+    command: /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_password }} -e "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
 
   when:
     - apigee_cassandra_authentication
