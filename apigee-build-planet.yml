@@ -53,6 +53,7 @@
     apigee_license_path: SET_ME
     # Leave blank to disable mail.
     apigee_smtp_host:
+    apigee_smtp_mail_from: noreply@apigee.com
 
     # apigee-organization
     apigee_organization_name: apigee
