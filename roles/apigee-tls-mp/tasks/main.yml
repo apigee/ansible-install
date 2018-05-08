@@ -1,0 +1,32 @@
+---
+- name: Generate obfuscated password
+  script: ../scripts/generate_obf.sh {{ apigee_tls_mp_password }}
+  args:
+    removes: /opt/apigee/edge-message-processor
+  register: apigee_tls_mp_obf_password
+
+- name: Copy {{ apigee_tls_mp_keystore }} to {{ inventory_hostname }}:{{ apigee_tls_mp_keystore_dest }}
+  copy:
+    src: '{{ apigee_tls_mp_keystore }}'
+    dest: '{{ apigee_tls_mp_keystore_dest }}'
+    owner: apigee
+    group: apigee
+    mode: 0600
+
+- name: Set properties in {{ apigee_tls_mp_properties_path }}
+  lineinfile:
+    path: '{{ apigee_tls_mp_properties_path }}'
+    regexp: '^{{ item.key }}=.*$'
+    line: '{{ item.key}}={{ item.value }}'
+    state: present
+    create: true
+    owner: apigee
+    group: apigee
+    mode: 0600
+  with_dict: '{{ apigee_tls_mp_properties }}'
+
+- name: Restart message processor
+  command: removes=/opt/apigee/edge-message-processor /opt/apigee/apigee-service/bin/apigee-service edge-message-processor restart
+
+- name: Restart router
+  command: removes=/opt/apigee/edge-router /opt/apigee/apigee-service/bin/apigee-service edge-router restart

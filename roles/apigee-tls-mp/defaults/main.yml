@@ -1,0 +1,15 @@
+---
+apigee_tls_mp_port: 8443
+apigee_tls_mp_keystore: SET_ME
+apigee_tls_mp_keystore_dest: /opt/apigee/customer/keystore_mp.jks
+apigee_tls_mp_keyalias: SET_ME
+apigee_tls_mp_password: SET_ME
+
+apigee_tls_mp_properties_path: /opt/apigee/customer/application/message-processor.properties
+apigee_tls_mp_properties:
+  conf_message-processor-communication_local.http.ssl: true
+  conf/message-processor-communication.properties+local.http.port: {{ apigee_tls_mp_port }}
+  conf/message-processor-communication.properties+local.http.ssl.keystore.type: jks
+  conf/message-processor-communication.properties+local.http.ssl.keystore.path: {{ apigee_tls_mp_keystore }}
+  conf/message-processor-communication.properties+local.http.ssl.keyalias: {{ apigee_tls_mp_keyalias }}
+  conf/message-processor-communication.properties+local.http.ssl.keystore.password: {{ apigee_tls_mp_password }}
