@@ -79,3 +79,21 @@
 
     - name: Wait for Developer Portal Load Balancer
       command: removes=/opt/apigee/apigee-lb /opt/apigee/apigee-service/bin/apigee-service apigee-lb wait_for_ready
+
+    - name: Start InfluxDB
+      command: removes=/opt/apigee/apigee-influxdb /opt/apigee/apigee-service/bin/apigee-service apigee-influxdb start
+
+    - name: Wait for InfluxDB
+      command: removes=/opt/apigee/apigee-influxdb /opt/apigee/apigee-service/bin/apigee-service apigee-influxdb wait_for_ready
+
+    - name: Start Grafana
+      command: removes=/opt/apigee/apigee-grafana /opt/apigee/apigee-service/bin/apigee-service apigee-grafana start
+
+    - name: Wait for Grafana
+      command: removes=/opt/apigee/apigee-grafana /opt/apigee/apigee-service/bin/apigee-service apigee-grafana wait_for_ready
+
+    - name: Start Telegraf
+      command: removes=/opt/apigee/apigee-telegraf /opt/apigee/apigee-service/bin/apigee-service apigee-telegraf start
+
+    - name: Wait for Telegraf
+      command: removes=/opt/apigee/apigee-telegraf /opt/apigee/apigee-service/bin/apigee-service apigee-telegraf wait_for_ready

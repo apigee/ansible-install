@@ -40,3 +40,12 @@
 
     - name: Stop Zookeeper
       command: removes=/opt/apigee/apigee-zookeeper /opt/apigee/apigee-service/bin/apigee-service apigee-zookeeper stop
+
+    - name: Stop InfluxDB
+      command: removes=/opt/apigee/apigee-influxdb /opt/apigee/apigee-service/bin/apigee-service apigee-influxdb stop
+
+    - name: Stop Grafana
+      command: removes=/opt/apigee/apigee-grafana /opt/apigee/apigee-service/bin/apigee-service apigee-grafana stop
+
+    - name: Stop Telegraf
+      command: removes=/opt/apigee/apigee-telegraf /opt/apigee/apigee-service/bin/apigee-service apigee-telegraf stop
