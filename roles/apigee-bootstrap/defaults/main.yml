@@ -13,7 +13,7 @@ apigee_java_package: java-1.{{ apigee_java_version }}.0-openjdk-devel
 # You may wish to set this if you are installing the Oracle JDK on Amazon Linux.
 apigee_java_alternative: /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
 
-apigee_release: 4.18.01
+apigee_release: 4.18.05
 
 apigee_repository_protocol: https://
 apigee_repository_address: software.apigee.com
