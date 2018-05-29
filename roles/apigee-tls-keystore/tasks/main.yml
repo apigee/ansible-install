@@ -19,7 +19,7 @@
         state: absent
 
     - name: Generate keystore
-      command: "{{ apigee_tls_keystore_keytool_path }} -genkeypair -keyalg RSA -sigalg SHA256withRSA -keystore {{ apigee_tls_keystore_dest }} -alias {{ apigee_tls_keystore_keyalias }} -dname CN={{ apigee_tls_keystore_keyalias }} -validity {{ apigee_tls_keystore_validity }} -storepass {{ apigee_tls_keystore_password }} -keypass {{ apigee_tls_keystore_password }}"
+      command: "{{ apigee_tls_keystore_keytool_path }} -genkeypair -keyalg RSA -sigalg SHA256withRSA -keystore {{ apigee_tls_keystore_dest }} -alias {{ apigee_tls_keystore_keyalias }} -dname CN={{ ansible_fqdn }} -ext san=dns:{{ ansible_fqdn }} -validity {{ apigee_tls_keystore_validity }} -storepass {{ apigee_tls_keystore_password }} -keypass {{ apigee_tls_keystore_password }}"
 
     when: apigee_tls_keystore_src is none
 

@@ -8,6 +8,7 @@
   - import_tasks: account.yml
     tags:
       - account
+      - response
 
   - import_tasks: installation-path.yml
     tags:
