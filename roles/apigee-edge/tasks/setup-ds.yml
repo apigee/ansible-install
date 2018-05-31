@@ -17,8 +17,7 @@
 
   - name: Set Cassandra password
     shell: sleep 5; /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_default_password }} -e "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
-
-  rescue:
+    ignore_errors: yes
 
   - name: Set Cassandra password
     command: /opt/apigee/apigee-cassandra/bin/cqlsh {{ ansible_default_ipv4.address }} -u cassandra -p {{ apigee_cassandra_password }} -e "ALTER USER cassandra WITH password '{{ apigee_cassandra_password }}';"
