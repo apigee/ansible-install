@@ -179,7 +179,7 @@ profile_map = dict(
 def parse_topology(topology):
     parsed_topology = {}
     for entry in topology:
-        region, host, profiles = entry.split()
+        region, host, profiles = entry.strip().split()
         profiles = profiles.split(',')
         if region not in parsed_topology:
             parsed_topology[region] = []
