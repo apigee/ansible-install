@@ -13,6 +13,19 @@ This is not an officially supported Google product.
 
 
 
+# Alternative tools
+
+These roles and playbooks provide the simplest possible interface to install an
+Apigee planet using Ansible. They drive the installation using ideal defaults
+and require just a few simple steps to perform a full installation. They do not
+cover additional operational tasks you may wish to perform, such as
+infrastructure creation, OS management, Apigee planet expansion, and other
+tasks. If you are looking for an Ansible-managed solution for those tasks, see
+the expanded Ansible roles offered at
+<https://github.com/apigee/playbook-setup-ansible>.
+
+
+
 # Quickstart
 
 ## Install Ansible
