@@ -114,8 +114,8 @@ or `man ansible` for a full description.
 ## Edit the build playbook
 
 Edit `apigee-build-planet.yml`. Inside, you will find a number of settings you
-may wish to change. The `apigee_topology` variable as well as anything with a
-value of SET_ME is mandatory; all other settings are optional.
+may wish to change. The `apigee_topology` variable and all variables with
+a value of SET_ME are mandatory; all other settings are optional.
 
 One of the most important variables is the `apigee_topology` variable, which
 drives the execution of the Apigee roles to correctly configure each host with
