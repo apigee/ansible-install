@@ -25,7 +25,9 @@
     owner: root
     group: root
     mode: 0644
-  when: apigee.profiles | intersect(('mp', 'rmp', 'sa', 'aio'))
+  when:
+    - apigee_set_limits
+    - apigee.profiles | intersect(('mp', 'rmp', 'sa', 'aio'))
 
 - import_tasks: installation-path.yml
   when: apigee.profiles | intersect(('r', 'rmp', 'sa', 'aio'))
@@ -41,6 +43,13 @@
 
 - import_tasks: setup-ps.yml
 
+# Developer Portal autostart script doesn't work
+- name: Check for Developer Portal
+  stat:
+    path: /opt/apigee/apigee-drupal-devportal
+  register: apigee_drupal_path
+
 - name: Enable automatic start
   command: /opt/apigee/apigee-service/bin/apigee-all enable_autostart
   when: apigee_enable_autostart
+  ignore_errors: apigee_drupal_path.stat.exists

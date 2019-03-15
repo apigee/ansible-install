@@ -60,4 +60,6 @@ apigee_bind_all_interfaces: true
 
 apigee_enable_autostart: true
 
+apigee_set_limits: no
+
 apigee_brand: apigee
