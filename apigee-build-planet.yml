@@ -39,9 +39,18 @@
     apigee_clean_up: true
 
     # apigee-base
+    apigee_installation_path: /opt
+    # Google-hosted Internet repo
     apigee_repository_username: SET_ME
     apigee_repository_password: SET_ME
-    apigee_installation_path: /opt
+    # Locally-hosted repo mirror
+    #apigee_repository_protocol: http://
+    #apigee_repository_address: mirror-address
+    #apigee_repository_username: admin
+    #apigee_repository_password: admin
+    # Tarball stored on the filesystem
+    #apigee_repository_protocol: file://
+    #apigee_repository_base_path: /path/to/repos
 
     # apigee-edge
     apigee_admin_email: opdk@apigee.com
