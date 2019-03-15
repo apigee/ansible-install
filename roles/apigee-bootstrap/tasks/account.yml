@@ -7,11 +7,11 @@
 
 - name: Create apigee user
   user:
-    name: apigee
     system: yes
+    name: apigee
     group: apigee
-    comment: Apigee platform user
-    home: /opt/apigee
+    comment: '{{ apigee_account_comment }}'
+    home: '{{ apigee_account_home }}'
     createhome: no
-    shell: /sbin/nologin
+    shell: '{{ apigee_account_shell }}'
     state: present

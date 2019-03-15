@@ -2,6 +2,10 @@
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true
 
+apigee_account_comment: Apigee platform user
+apigee_account_home: /opt/apigee
+apigee_account_shell: /sbin/nologin
+
 apigee_installation_path: /opt
 apigee_edge_installation_path: '{{ apigee_installation_path }}/apigee'
 apigee_nginx_installation_path: '{{ apigee_installation_path }}/nginx'
@@ -13,7 +17,7 @@ apigee_java_package: java-1.{{ apigee_java_version }}.0-openjdk-devel
 # You may wish to set this if you are installing the Oracle JDK on Amazon Linux.
 apigee_java_alternative: /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
 
-apigee_release: 4.18.05
+apigee_release: 4.19.01
 
 apigee_repository_protocol: https://
 apigee_repository_address: software.apigee.com
