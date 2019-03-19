@@ -28,4 +28,5 @@
 - name: Enable automatic start
   command: /opt/apigee/apigee-service/bin/apigee-all enable_autostart
   when: apigee_enable_autostart
-  ignore_errors: '{{ apigee_drupal_path.stat.exists }}'
+  register: apigee_autostart_result
+  failed_when: apigee_autostart_result.rc != 0 and not apigee_drupal_path.stat.exists
