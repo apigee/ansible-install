@@ -1,8 +1,6 @@
 ---
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true
-# Show Apigee facts.
-apigee_debug: false
 
 apigee_cluster_hostname: '{{ inventory_hostname }}'
 

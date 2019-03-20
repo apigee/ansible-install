@@ -23,8 +23,6 @@ apigee_topology:
 
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true
-# Show Apigee facts.
-apigee_debug: false
 apigee_scan_ports: false
 
 apigee_installation_path: /opt
