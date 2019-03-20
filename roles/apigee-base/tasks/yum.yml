@@ -1,8 +1,5 @@
 ---
 - name: Install Yum utilities
   yum:
-    name: '{{ item }}'
+    name: '{{ apigee_yum_utils }}'
     state: present
-  with_items:
-    - yum-plugin-priorities
-    - yum-utils

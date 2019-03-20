@@ -1,4 +1,8 @@
 ---
-apigee_release: 4.18.05
-apigee_releases_with_epel: (4.17.01, 4.17.05, 4.17.09, 4.18.01, 4.18.05)
+apigee_release: 4.19.01
+apigee_releases_with_epel: (4.17.01, 4.17.05, 4.17.09, 4.18.01, 4.18.05, 4.19.01)
 apigee_install_epel: true
+
+apigee_yum_utils:
+  - yum-plugin-priorities
+  - yum-utils
