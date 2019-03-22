@@ -1,16 +1,16 @@
 ---
 - name: Set PostgreSQL response file path
   set_fact:
-    pdb_response: '{{ apigee_tmp_dir }}/response-pdb.txt'
+    apigee_pdb_response_path: '{{ apigee_tmp_dir }}/response-pdb.txt'
 
 - name: Set developer portal response file path
   set_fact:
-    dp_response: '{{ apigee_tmp_dir }}/response-dp.txt'
+    apigee_dp_response_path: '{{ apigee_tmp_dir }}/response-dp.txt'
 
 - name: Generate PostgreSQL response file
   template:
     src: response-pdb.txt.j2
-    dest: '{{ pdb_response }}'
+    dest: '{{ apigee_pdb_response_path }}'
     owner: apigee
     group: apigee
     mode: 0600
@@ -19,7 +19,7 @@
 - name: Generate developer portal response file
   template:
     src: response-dp.txt.j2
-    dest: '{{ dp_response }}'
+    dest: '{{ apigee_dp_response_path }}'
     owner: apigee
     group: apigee
     mode: 0600

@@ -1,6 +1,6 @@
 ---
 - name: Setup PostgreSQL master
-  command: '{{ setup }} -f {{ response }} -p {{ item }}'
+  command: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }}'
   with_items: '{{ apigee.profiles }}'
   when:
     - item in ('ps', 'sax')
@@ -27,7 +27,7 @@
   when: trust.changed
 
 - name: Setup PostgreSQL standby
-  command: '{{ setup }} -f {{ response }} -p {{ item }}'
+  command: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }}'
   with_items: '{{ apigee.profiles }}'
   when:
     - item in ('ps', 'sax')
@@ -35,6 +35,6 @@
 
 # Bug workaround
 - name: Generate Telegraf configuration files
-  command: /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql setup -f {{ response }}
+  command: /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql setup -f {{ apigee_edge_response_path }}
   args:
     removes: /opt/apigee/apigee-postgresql

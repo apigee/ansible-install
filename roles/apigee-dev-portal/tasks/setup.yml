@@ -1,7 +1,7 @@
 ---
 - name: Set setup.sh path
   set_fact:
-    setup: /opt/apigee/apigee-setup/bin/setup.sh
+    apigee_setup_path: /opt/apigee/apigee-setup/bin/setup.sh
 
 - import_tasks: setup-pdb.yml
   when: ('pdb' in apigee.profiles)
@@ -16,7 +16,7 @@
   when: ('dp' in apigee.profiles)
 
 - name: Setup developer portal servers
-  shell: '{{ setup }} -f {{ dp_response }} -p dp'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_dp_response_path }} -p dp'
   when: ('dp' in apigee.profiles)
 
 # Developer Portal autostart script doesn't work

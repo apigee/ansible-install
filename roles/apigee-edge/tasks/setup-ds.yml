@@ -9,7 +9,7 @@
   when: apigee_set_limits
 
 - name: Setup Datastores
-  shell: sleep {{ apigee.cass_pause }}; {{ setup }} -f {{ response }} -p ds
+  shell: sleep {{ apigee.cass_pause }}; {{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ds
 
 # Try to change the Cassandra password from the default to the new password. If it fails, that probably means setup was
 # already run in the past and the default password is no longer in use. To be sure, set the password to its expected

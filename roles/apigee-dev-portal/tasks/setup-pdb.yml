@@ -1,6 +1,6 @@
 ---
 - name: Setup PostgreSQL master
-  command: '{{ setup }} -f {{ pdb_response }} -p pdb'
+  command: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb'
   when:
     - ansible_default_ipv4.address == apigee.dp.pg_master
 
@@ -23,6 +23,6 @@
   when: trust.changed
 
 - name: Setup PostgreSQL standby
-  command: '{{ setup }} -f {{ pdb_response }} -p pdb'
+  command: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb'
   when:
     - ansible_default_ipv4.address != apigee.dp.pg_master

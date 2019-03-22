@@ -24,20 +24,20 @@
 
     - name: Set response file path
       set_fact:
-        response: '{{ apigee_tmp_dir }}/response-tls-ui.txt'
+        apigee_tls_ui_response: '{{ apigee_tmp_dir }}/response-tls-ui.txt'
       tags:
         - response
 
     - name: Generate response file
       template:
         src: response-tls-ui.txt.j2
-        dest: '{{ response }}'
+        dest: '{{ apigee_tls_ui_response }}'
         owner: apigee
         group: apigee
         mode: 0600
 
     - name: Enable TLS
-      command: /opt/apigee/apigee-service/bin/apigee-service edge-ui configure-ssl -f {{ response }}
+      command: /opt/apigee/apigee-service/bin/apigee-service edge-ui configure-ssl -f {{ apigee_tls_ui_response }}
 
     always:
 
