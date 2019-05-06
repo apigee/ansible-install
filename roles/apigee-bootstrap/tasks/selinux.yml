@@ -1,11 +1,10 @@
 ---
 - name: Install SELinux support
   yum:
-    name: '{{ item }}'
+    name:
+      - libselinux-python
+      - selinux-policy
     state: present
-  with_items:
-    - libselinux-python
-    - selinux-policy
 
 - name: Disable SELinux
   selinux:
