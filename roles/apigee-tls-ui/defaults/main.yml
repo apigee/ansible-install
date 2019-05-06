@@ -1,5 +1,6 @@
 ---
-apigee_become_user: apigee
+# This role will likely fail if not run as root.
+apigee_become_user: root
 
 apigee_tmp_dir: /tmp/apigee
 

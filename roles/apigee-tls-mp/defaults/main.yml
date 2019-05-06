@@ -1,5 +1,6 @@
 ---
-apigee_become_user: apigee
+# This role will likely fail if not run as root.
+apigee_become_user: root
 
 apigee_tls_mp_keystore_type: jks
 apigee_tls_mp_keystore_dest: /opt/apigee/customer/keystore-mp.jks
