@@ -29,7 +29,7 @@
       path: '{{ apigee_tls_keystore_dest }}'
       owner: apigee
       group: apigee
-      mode: 0600
+      mode: 0400
 
   become: true
   become_user: '{{ apigee_become_user }}'
