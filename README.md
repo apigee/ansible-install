@@ -135,8 +135,8 @@ repository at software.apigee.com and the file transfer service at sftp.apigee.c
 repository at software.apigee.com and the file transfer service at sftp.apigee.com.
 - `apigee_license_path`: The path to the license file provided by Apigee for
 on-premises deployment. If an absolute path, this may be located anywhere on the
-local filesystem. If a bare filename, the license file must be copied to the
-files subdirectory of the apigee-edge role.
+local filesystem. If a bare filename, the license file must be copied to
+`roles/apigee-edge-/files`.
 - `apigee_admin_email`: The email of the Apigee Edge admin user.
 - `apigee_admin_password`: The password of the Apigee Edge admin user.
 - `apigee_organization_name`: The name of the organization to create.
