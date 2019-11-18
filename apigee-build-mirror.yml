@@ -1,5 +1,6 @@
 ---
-- hosts: apigee-mirror
+- hosts: apigee_mirror
+  gather_facts: true
   roles:
     - apigee-bootstrap
     - apigee-mirror

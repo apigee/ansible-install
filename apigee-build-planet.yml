@@ -1,5 +1,6 @@
 ---
 - hosts: apigee
+  gather_facts: true
   max_fail_percentage: 0
   roles:
     - apigee-bootstrap
@@ -72,6 +73,7 @@
     apigee_virtual_host_aliases:
       - SET_ME_1
       - SET_ME_2
+    apigee_analytics_retention_days: 90
 
     # apigee-dev-portal
     apigee_dp_admin_firstname: Apigee
