@@ -32,7 +32,7 @@
     name: apigee-nodetool-repair
     job: /opt/apigee/apigee-cassandra/bin/nodetool repair
     user: apigee
-    weekday: 0
-    hour: 0
-    minute: '{{ (apigee.cass_pause / 3) | int }}'
+    weekday: '0'
+    hour: '{{ (apigee.cass_pause / 3 / 60) | int }}'
+    minute: '{{ (apigee.cass_pause / 3 % 60) | int }}'
     state: present
