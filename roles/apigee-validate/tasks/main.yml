@@ -11,4 +11,4 @@
     - cron
 
 - import_tasks: run.yml
-  when: apigee
+  when: apigee.keys()|length > 0

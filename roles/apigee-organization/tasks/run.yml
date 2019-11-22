@@ -50,7 +50,7 @@
       state: present
     when:
       - apigee.profiles | intersect(('ps', 'sax'))
-      - apigee_analytics_retention_days
+      - apigee_analytics_retention_days is not none
     tags:
       - cron
 

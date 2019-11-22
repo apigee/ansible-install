@@ -18,7 +18,7 @@
       - 5432
     closed_is_error: no
   when:
-    - hostvars[item].apigee
+    - hostvars[item].apigee.keys()|length > 0
     - ('dp' in apigee.profiles)
     - (hostvars[item].ansible_default_ipv4 == apigee.dp.pg_backend)
   with_items: '{{ play_hosts }}'
@@ -30,7 +30,7 @@
       - 8080
     closed_is_error: no
   when:
-    - hostvars[item].apigee
+    - hostvars[item].apigee.keys()|length > 0
     - ('dp' in apigee.profiles)
     - ('ms' in hostvars[item].apigee.profiles)
   with_items: '{{ play_hosts }}'

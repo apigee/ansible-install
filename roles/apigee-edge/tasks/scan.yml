@@ -11,7 +11,7 @@
       - 9160
     closed_is_error: false
   when:
-    - hostvars[item].apigee
+    - hostvars[item].apigee.keys()|length > 0
     - ('ds' in apigee.profiles)
     - ('ds' in hostvars[item].apigee.profiles)
   with_items: '{{ play_hosts }}'
@@ -26,7 +26,7 @@
       - 9160
     closed_is_error: false
   when:
-    - hostvars[item].apigee
+    - hostvars[item].apigee.keys()|length > 0
     - ('ms' in apigee.profiles or 'sa' in apigee.profiles or 'sax' in apigee.profiles)
     - ('ds' in hostvars[item].apigee.profiles)
   with_items: '{{ play_hosts }}'
