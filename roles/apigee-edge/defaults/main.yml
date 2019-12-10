@@ -24,6 +24,7 @@ apigee_topology:
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true
 apigee_scan_ports: false
+apigee_always_run_setup: false
 
 apigee_installation_path: /opt
 apigee_edge_installation_path: '{{ apigee_installation_path }}/apigee'

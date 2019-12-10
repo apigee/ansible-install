@@ -1,6 +1,7 @@
 ---
 apigee_tmp_dir: /tmp/apigee
 apigee_clean_up: true
+apigee_always_run_bootstrap: false
 
 apigee_account_comment: Apigee platform user
 apigee_account_home: /opt/apigee

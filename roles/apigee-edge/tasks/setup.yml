@@ -3,15 +3,33 @@
   set_fact:
     apigee_setup_path: /opt/apigee/apigee-setup/bin/setup.sh
 
+- name: force setup to run
+  file:
+    path: /opt/apigee/customer/.setup-finished/edge
+    state: absent
+  when: apigee_always_run_setup == true
+
+- name: create setup flags directory
+  file:
+    path: /opt/apigee/customer/.setup-finished/edge
+    state: directory
+    owner: apigee
+    group: apigee
+    mode: 0755
+
 - import_tasks: setup-ds.yml
   when: apigee.profiles | intersect(('ds', 'sa', 'aio'))
 
 - name: Setup LDAP servers
-  shell: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ld'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ld && touch /opt/apigee/customer/.setup-finished/edge/ld'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/ld
   when: ('ld' in apigee.profiles)
 
 - name: Setup Management servers
-  shell: sleep {{ apigee.ms_pause }}; {{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ms
+  shell: sleep {{ apigee.ms_pause }}; {{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ms && touch /opt/apigee/customer/.setup-finished/edge/ms
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/ms
   when: ('ms' in apigee.profiles)
 
 # For clustered installations.
@@ -33,8 +51,10 @@
   when: apigee.profiles | intersect(('r', 'rmp', 'sa', 'aio'))
 
 - name: Setup gateways and queues
-  command: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }}'
-  with_items: '{{ apigee.profiles }}'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }} && touch /opt/apigee/customer/.setup-finished/edge/{{ item }}'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/{{ item }}
+  loop: '{{ apigee.profiles }}'
   when: item in ('r', 'mp', 'rmp', 'qs', 'sa', 'aio')
 
 # For standalone installations.

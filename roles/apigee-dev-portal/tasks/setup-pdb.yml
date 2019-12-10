@@ -1,6 +1,8 @@
 ---
 - name: Setup PostgreSQL master
-  command: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb && touch /opt/apigee/customer/.setup-finished/portal/pdb-master'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/portal/pdb-master
   when:
     - ansible_default_ipv4.address == apigee.dp.pg_master
 
@@ -23,6 +25,8 @@
   when: trust.changed
 
 - name: Setup PostgreSQL standby
-  command: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_pdb_response_path }} -p pdb && touch /opt/apigee/customer/.setup-finished/portal/pdb-standby'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/portal/pdb-standby
   when:
     - ansible_default_ipv4.address != apigee.dp.pg_master

@@ -3,6 +3,20 @@
   set_fact:
     apigee_setup_path: /opt/apigee/apigee-setup/bin/setup.sh
 
+- name: force setup to run
+  file:
+    path: /opt/apigee/customer/.setup-finished/portal
+    state: absent
+  when: apigee_always_run_setup == true
+
+- name: create setup flags directory
+  file:
+    path: /opt/apigee/customer/.setup-finished/portal
+    state: directory
+    owner: apigee
+    group: apigee
+    mode: 0755
+
 - import_tasks: setup-pdb.yml
   when: ('pdb' in apigee.profiles)
 
@@ -16,7 +30,9 @@
   when: ('dp' in apigee.profiles)
 
 - name: Setup developer portal servers
-  shell: '{{ apigee_setup_path }} -f {{ apigee_dp_response_path }} -p dp'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_dp_response_path }} -p dp && touch /opt/apigee/customer/.setup-finished/portal/dp'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/portal/dp
   when: ('dp' in apigee.profiles)
 
 # Developer Portal autostart script doesn't work

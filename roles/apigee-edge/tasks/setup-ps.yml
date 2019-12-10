@@ -1,7 +1,9 @@
 ---
 - name: Setup PostgreSQL master
-  command: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }}'
-  with_items: '{{ apigee.profiles }}'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }} && touch /opt/apigee/customer/.setup-finished/edge/{{ item }}-master'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/{{ item }}-master
+  loop: '{{ apigee.profiles }}'
   when:
     - item in ('ps', 'sax')
     - ansible_default_ipv4.address == apigee.pg_master
@@ -15,7 +17,7 @@
     owner: apigee
     group: apigee
     mode: 0644
-  with_items: '{{ apigee.profiles }}'
+  loop: '{{ apigee.profiles }}'
   when:
     - item in ('ps', 'sax')
     - ansible_default_ipv4.address == apigee.pg_master
@@ -27,14 +29,10 @@
   when: trust.changed
 
 - name: Setup PostgreSQL standby
-  command: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }}'
-  with_items: '{{ apigee.profiles }}'
+  shell: '{{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p {{ item }} && touch /opt/apigee/customer/.setup-finished/edge/{{ item }}-standby'
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/{{ item }}-standby
+  loop: '{{ apigee.profiles }}'
   when:
     - item in ('ps', 'sax')
     - ansible_default_ipv4.address != apigee.pg_master
-
-# Bug workaround
-- name: Generate Telegraf configuration files
-  command: /opt/apigee/apigee-service/bin/apigee-service apigee-postgresql setup -f {{ apigee_edge_response_path }}
-  args:
-    removes: /opt/apigee/apigee-postgresql

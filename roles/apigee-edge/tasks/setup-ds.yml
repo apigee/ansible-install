@@ -9,7 +9,9 @@
   when: apigee_set_limits
 
 - name: Setup Datastores
-  shell: sleep {{ apigee.cass_pause }}; {{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ds
+  shell: sleep {{ apigee.cass_pause }} && {{ apigee_setup_path }} -f {{ apigee_edge_response_path }} -p ds && touch /opt/apigee/customer/.setup-finished/edge/ds
+  args:
+    creates: /opt/apigee/customer/.setup-finished/edge/ds
 
 # Try to change the Cassandra password from the default to the new password. If it fails, that probably means setup was
 # already run in the past and the default password is no longer in use. To be sure, set the password to its expected
@@ -33,6 +35,6 @@
     job: /opt/apigee/apigee-cassandra/bin/nodetool repair
     user: apigee
     weekday: '0'
-    hour: '{{ (apigee.cass_pause / 3 / 60) | int }}'
-    minute: '{{ (apigee.cass_pause / 3 % 60) | int }}'
+    hour: '{{ (apigee.cass_pause / 60) | int }}'
+    minute: '{{ (apigee.cass_pause % 60) | int }}'
     state: present

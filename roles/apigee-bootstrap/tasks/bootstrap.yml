@@ -1,6 +1,12 @@
 ---
 - block:
 
+  - name: force bootstrap to run
+    file:
+      path: /opt/apigee/customer/.bootstrap-finished
+      state: absent
+    when: apigee_always_run_bootstrap == true
+
   - name: Download bootstrap script from {{ apigee_bootstrap_url }}
     get_url:
       url: '{{ apigee_bootstrap_url }}'
@@ -14,7 +20,9 @@
     when: apigee_bootstrap_url is not none
 
   - name: Bootstrap from {{ apigee_repository_url }}
-    command: /bin/bash {{ apigee_bootstrap_path }} apigeeprotocol={{ apigee_repository_protocol }} apigeerepohost={{ apigee_repository_address }} apigeerepobasepath={{ apigee_repository_base_path }} apigeestage={{ apigee_repository_stage }} apigeeuser={{ apigee_repository_username }} apigeepassword={{ apigee_repository_password }}
+    shell: /bin/bash {{ apigee_bootstrap_path }} apigeeprotocol={{ apigee_repository_protocol }} apigeerepohost={{ apigee_repository_address }} apigeerepobasepath={{ apigee_repository_base_path }} apigeestage={{ apigee_repository_stage }} apigeeuser={{ apigee_repository_username }} apigeepassword={{ apigee_repository_password }} && touch /opt/apigee/customer/.bootstrap-finished
+    args:
+      creates: /opt/apigee/customer/.bootstrap-finished
 
   when: apigee_repository_protocol != 'file://'
 
