@@ -1,14 +1,6 @@
 ---
-- name: Set Apigee facts
-  apigee_facts:
-    hostvars: '{{ hostvars }}'
-    topology: '{{ apigee_topology }}'
-    my_hostname: '{{ apigee_cluster_hostname }}'
-  tags:
-    - facts
-    - response
-    - setup
-    - cron
+- import_role:
+    name: apigee-facts
 
 - import_tasks: run.yml
   when: apigee.keys()|length > 0

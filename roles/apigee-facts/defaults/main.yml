@@ -1,0 +1,24 @@
+---
+apigee_topology:
+  - dc-1 host01 ms
+  - dc-1 host02 ds
+  - dc-1 host03 ds
+  - dc-1 host04 ds
+  - dc-1 host05 rmp
+  - dc-1 host06 rmp
+  - dc-1 host07 qs
+  - dc-1 host08 qs
+  - dc-1 host09 ps
+  - dc-1 host10 pdb,dp
+  - dc-2 host11 ms
+  - dc-2 host12 ds
+  - dc-2 host13 ds
+  - dc-2 host14 ds
+  - dc-2 host15 rmp
+  - dc-2 host16 rmp
+  - dc-2 host17 qs
+  - dc-2 host18 qs
+  - dc-2 host19 ps
+  - dc-2 host20 pdb,dp
+
+apigee_cluster_hostname: '{{ inventory_hostname }}'
