@@ -1,18 +1,21 @@
 ---
-- name: filter hostvars for apigee_facts
-  set_fact:
-    network_facts: "{{ network_facts | default({}) | combine({item: {'ansible_default_ipv4': hostvars[item].ansible_default_ipv4}}) }}"
-  loop: '{{ play_hosts }}'
-  no_log: true
+- block:
 
-- name: set Apigee facts
-  apigee_facts:
-    hostvars: '{{ network_facts }}'
-    topology: '{{ apigee_topology }}'
-    my_hostname: '{{ apigee_cluster_hostname }}'
+  - name: filter hostvars for apigee_facts
+    set_fact:
+      network_facts: "{{ network_facts | default({}) | combine({item: {'ansible_default_ipv4': hostvars[item].ansible_default_ipv4}}) }}"
+    loop: '{{ play_hosts }}'
+
+  - name: set Apigee facts
+    apigee_facts:
+      hostvars: '{{ network_facts }}'
+      topology: '{{ apigee_topology }}'
+      my_hostname: '{{ apigee_cluster_hostname }}'
+    when: apigee is not defined
+    tags:
+      - facts
+      - response
+      - setup
+      - cron
+
   when: apigee is not defined
-  tags:
-    - facts
-    - response
-    - setup
-    - cron
